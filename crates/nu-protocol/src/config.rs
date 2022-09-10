@@ -60,6 +60,7 @@ pub struct Config {
     pub use_grid_icons: bool,
     pub footer_mode: FooterMode,
     pub float_precision: i64,
+    pub max_completion_results: i64,
     pub max_external_completion_results: i64,
     pub filesize_format: String,
     pub use_ansi_coloring: bool,
@@ -97,6 +98,7 @@ impl Default for Config {
             use_grid_icons: false,
             footer_mode: FooterMode::RowCount(25),
             float_precision: 4,
+            max_completion_results: 20,
             max_external_completion_results: 100,
             filesize_format: "auto".into(),
             use_ansi_coloring: true,
@@ -260,6 +262,13 @@ impl Value {
                             config.partial_completions = b;
                         } else {
                             eprintln!("$config.partial_completions is not a bool")
+                        }
+                    }
+                    "max_completion_results" => {
+                        if let Ok(i) = value.as_integer() {
+                            config.max_completion_results = i;
+                        } else {
+                            eprintln!("$config.max_completion_results is not an integer")
                         }
                     }
                     "max_external_completion_results" => {
