@@ -87,6 +87,7 @@ pub struct CompletionOptions {
     pub case_sensitive: bool,
     pub positional: bool,
     pub sort_by: SortBy,
+    pub max_completions: usize,
     pub match_algorithm: MatchAlgorithm,
 }
 
@@ -95,6 +96,7 @@ impl Default for CompletionOptions {
         Self {
             case_sensitive: true,
             positional: true,
+            max_completions: 20,
             sort_by: SortBy::Ascending,
             match_algorithm: MatchAlgorithm::Prefix,
         }

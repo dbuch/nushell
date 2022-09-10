@@ -113,6 +113,11 @@ impl Completer for CustomCompletion {
                                 } else {
                                     SortBy::None
                                 },
+                                max_completions: options
+                                    .get_data_by_key("max_completions")
+                                    .and_then(|val| val.as_i64().ok())
+                                    .unwrap_or(i64::MAX)
+                                    as usize,
                                 match_algorithm: match options
                                     .get_data_by_key("completion_algorithm")
                                 {

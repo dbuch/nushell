@@ -40,6 +40,7 @@ impl NuCompleter {
 
         let mut options = CompletionOptions {
             case_sensitive: config.case_sensitive_completions,
+            max_completions: config.max_completion_results as usize,
             ..Default::default()
         };
 
@@ -48,13 +49,15 @@ impl NuCompleter {
         }
 
         // Fetch
-        let mut suggestions =
+        let suggestions =
             completer.fetch(working_set, prefix.clone(), new_span, offset, pos, &options);
 
         // Sort
-        suggestions = completer.sort(suggestions, prefix);
-
-        suggestions
+        completer
+            .sort(suggestions, prefix)
+            .into_iter()
+            .take(options.max_completions)
+            .collect()
     }
 
     fn external_completion(
